@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+	<head>
+		<script>
+	
+		var host = "ucsf.idm.oclc.org";
+		
+		function prereq() {
+			if (document.getElementById('aform').dburl.value == '') {
+				alert('A database URL must be specified.');
+        return false;
+      }
+		
+			var dburl = document.getElementById('aform').dburl.value;
+			if ( (dburl.substr(0,7) != 'http://') && (dburl.substr(0,8) != 'https://') )
+			{
+				alert('The link needs to start with http:// or https://');
+        return false;
+			}
+      
+      return true;
+		}
+		
+		function gen() {
+			if (prereq()) {
+  			document.getElementById('aform').ezurl.value = 'https://' + host + '/login?url=' + document.getElementById('aform').dburl.value;
+      }
+		}
+		
+		function test_normal() {
+			gen();
+			window.open(document.getElementById('aform').ezurl.value);
+		}
+		
+		function clear_form() {
+			document.getElementById('aform').ezurl.value = '';
+			document.getElementById('aform').dburl.value = '';	
+		}
+		
+		</script>
+	
+		<title>UCSF Full-Text Access Link Generator</title>
+	</head>
+	
+	<body>
+	  <form id="aform">
+						<table border="1">
+							<tr>
+								<td><strong>Database URL</strong></td>
+								<td><input type="text" id="dburl" size="100"></td>
+							</tr>
+						</table>
+						<input type="button" id="generate" value="Display Ezproxy Link" onclick="javascript:gen();">
+						<input type="button" id="clearform" value="Clear Form" onclick="javascript:clear_form();">
+						<br /><br />
+						<table border="0">
+							<tr>
+								<td><strong>Ezproxy Link</strong></td>
+								<td><input type="text" id="ezurl" size="100" readonly="true"></td>
+							</tr>
+						</table>
+						<input type="button" id="test" value="Test Ezproxy Link" onclick="javascript:test_normal();">
+					</form>
+	</body>
+</html>
